@@ -15,6 +15,8 @@ class _HomePageState extends State<HomePage> {
   @override
   int peso = 0;
   int edad = 0;
+  int valorpeso = 50;
+  double _currentSliderValue = 50;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -70,17 +72,56 @@ class _HomePageState extends State<HomePage> {
              Expanded(child: Container(
               // ignore: sort_child_properties_last
               child: Row(
-
+                  
                     children: [
                   Expanded(child: Padding(
                      padding: const EdgeInsets.all(8.0),
-                     child: Container(
+                      child: Container(
+                       
+                  // ignore: sort_child_properties_last
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Estatura", style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+
+                          )),
+                  Text(_currentSliderValue.toString(), style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold
+
+                          )
+                  
+                  
+                  
+                  
+                  
+                  
+                  ), 
+                  Slider(
+                    value: _currentSliderValue,
+                    max: 250,
+                    divisions: 250,
+                    label: _currentSliderValue.round().toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
+                  ),
+                ],
+                 ),
+
+
                       decoration: BoxDecoration(
                       color: Color.fromARGB(255, 110, 113, 163),
                       borderRadius: BorderRadius.circular(20),
                      )),
                     
-                    )),
+
+                    )
+                    ),
 
                 ],
 
@@ -202,10 +243,63 @@ class _HomePageState extends State<HomePage> {
             ),
           
           
-              GestureDetector(
+          GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => DetallePage())));
+            String resultado="";
+            String TextoResultado="";
+            double valormetro = _currentSliderValue / 100;
+            double calculoIMC = peso / (valormetro * valormetro);
+            var color;
+           // print(calculoIMC);
+         
+            if(calculoIMC<18.5){
+                resultado = "Bajo peso";
+                TextoResultado = "Tiene un peso corporal bajo";
+                color=Colors.orange;
+            };
+         
+           if(calculoIMC>18.5&&calculoIMC<24.9){
+                resultado = "Normal";
+                TextoResultado = "Tiene un peso corporal normal";
+            };
+
+              if(calculoIMC>18.5&&calculoIMC>24.9){
+                resultado = "Sobrepeso";
+                TextoResultado = "Tiene sobrepeso";
+            };
+
+              if(calculoIMC>18.5){
+                resultado = "Obesidad";
+                TextoResultado = "Tiene Obesidad";
+            };
+
+            if(calculoIMC>18.5){
+                resultado = "Obesidad 1";
+                TextoResultado = "Tiene Obesidad";
+            };
+
+             if(calculoIMC>18.5){
+                resultado = "Obesidad 2";
+                TextoResultado = "Tiene Obesidad";
+            };
+
+             if(calculoIMC>18.5){
+                resultado = "Obesidad 3";
+                TextoResultado = "Tiene Obesidad";
+            };
+
+             if(calculoIMC>18.5){
+                resultado = "Obesidad 4";
+                TextoResultado = "Tiene Obesidad";
+            };
+         
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => DetallePage(
+                          valorIMC: calculoIMC, resultado:resultado, TextoResultado: TextoResultado, color: color,
+                        ))));
+            
           },
           child: Container(
             height: 100,
